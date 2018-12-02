@@ -1,0 +1,175 @@
+python pyannote-structure.py shot --verbose ../../pyannote-data/TheBigBangTheory.mkv ../../pyannote-data/TheBigBangTheory.shots.json
+
+
+python pyannote-face.py track --verbose --min-confidence=5.0 --max-gap=2.0 --every=0.5 ../../pyannote-data/TheBigBangTheory.mkv ../../pyannote-data/TheBigBangTheory.shots.json ../../pyannote-data/TheBigBangTheory.track.txt
+
+python pyannote-face.py demo ../../pyannote-data/TheBigBangTheory.mkv ../../pyannote-data/TheBigBangTheory.track.txt ../../pyannote-data/TheBigBangTheory.track.mp4
+
+python pyannote-face.py extract --verbose ../../pyannote-data/TheBigBangTheory.mkv ../../pyannote-data/TheBigBangTheory.track.txt ../../dlib-models/shape_predictor_68_face_landmarks.dat ../../dlib-models/dlib_face_recognition_resnet_model_v1.dat ../../pyannote-data/TheBigBangTheory.landmarks.txt ../../pyannote-data/TheBigBangTheory.embedding.txt
+
+python pyannote-face.py demo ../../pyannote-data/TheBigBangTheory.mkv ../../pyannote-data/TheBigBangTheory.track.txt --label=../../pyannote-data/TheBigBangTheory.labels.txt ../../pyannote-data/TheBigBangTheory.final.mp4   
+
+python pyannote-face.py annotate  ../../pyannote-data/TheBigBangTheory.shots.json ../../pyannote-data/TheBigBangTheory.track.txt --label=../../pyannote-data/TheBigBangTheory.labels.txt ../../pyannote-data/TheBigBangTheory.annotation.json  
+
+
+python pyannote-face.py train --verbose ./train  ../../dlib-models/shape_predictor_68_face_landmarks.dat ../../dlib-models/dlib_face_recognition_resnet_model_v1.dat ./trained_knn_model_demo.clf
+python pyannote-face.py recognize  --verbose ../../pyannote-data/Video2.embedding.txt  ./trained_knn_model_demo.clf ../../pyannote-data/Video2.labels.txt  --report ./Video2.validation.json
+python pyannote-face.py evaluate  --label=../../pyannote-data/Video2.labels.txt . ./Video2.reference.json ./Video2.validation.json --report benchmark_report.txt
+
+
+ffmpeg -v quiet -y -i Video2.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:30:00 -sn Video2_1.mp4
+
+
+None
+DER = 0.160
+None
+None
+None
+None
+Mapping =  {'Theresa May'
+None
+None
+Purity = 0.840
+None
+None
+Coverage = 0.904
+
+
+
+python pyannote-structure.py shot --verbose --height=100  ../../pyannote-data/Video2.mp4 ../../pyannote-data/Video2.shots.json
+
+
+python pyannote-face.py track --verbose --min-confidence=5.0 --max-gap=2.0 --every=0.5 ../../pyannote-data/Video2.mp4 ../../pyannote-data/Video2.shots.json ../../pyannote-data/Video2.track.txt
+
+#python pyannote-face.py demo ../../pyannote-data/Video2.mp4 ../../pyannote-data/TheBigBangTheory.track.txt ../../pyannote-data/TheBigBangTheory.track.mp4
+
+python pyannote-face.py extract --verbose ../../pyannote-data/Video2.mp4 ../../pyannote-data/Video2.track.txt ../../dlib-models/shape_predictor_68_face_landmarks.dat ../../dlib-models/dlib_face_recognition_resnet_model_v1.dat ../../pyannote-data/Video2.landmarks.txt ../../pyannote-data/Video2.embedding.txt
+
+#python pyannote-face.py demo ../../pyannote-data/TheBigBangTheory.mkv ../../pyannote-data/TheBigBangTheory.track.txt --label=../../pyannote-data/TheBigBangTheory.labels.txt ../../pyannote-#data/TheBigBangTheory.final.mp4   
+
+python pyannote-face.py annotate  ../../pyannote-data/Video2.shots.json ../../pyannote-data/Video2.track.txt ../../pyannote-data/Video2.annotation.json  
+
+
+
+python pyannote-structure.py shot --verbose --height=100  ../../pyannote-data/Video2/Video2-Scene-019.mp4 ../../pyannote-data/Video2-Scene-019.shots.json
+
+
+python pyannote-face.py track --verbose --min-confidence=5.0 --max-gap=2.0 --every=0.5 ../../pyannote-data/Video2/Video2-Scene-019.mp4 ../../pyannote-data/Video2-Scene-020.shots.json ../../pyannote-data/Video2-Scene-019.track.txt
+
+#python pyannote-face.py demo ../../pyannote-data/Video2.mp4 ../../pyannote-data/TheBigBangTheory.track.txt ../../pyannote-data/TheBigBangTheory.track.mp4
+
+python pyannote-face.py extract --verbose ../../pyannote-data/Video2/Video2-Scene-019.mp4 ../../pyannote-data/Video2-Scene-019.track.txt ../../dlib-models/shape_predictor_68_face_landmarks.dat ../../dlib-models/dlib_face_recognition_resnet_model_v1.dat ../../pyannote-data/Video2-Scene-019.landmarks.txt ../../pyannote-data/Video2-Scene-019.embedding.txt
+
+#python pyannote-face.py demo ../../pyannote-data/TheBigBangTheory.mkv ../../pyannote-data/TheBigBangTheory.track.txt --label=../../pyannote-data/TheBigBangTheory.labels.txt ../../pyannote-#data/TheBigBangTheory.final.mp4   
+
+python pyannote-face.py annotate  ../../pyannote-data/Video2-Scene-020.shots.json ../../pyannote-data/Video2-Scene-019.track.txt --label=../../pyannote-data/Video2-Scene-019.labels.txt ../../pyannote-data/Video2-Scene-019.annotation.json  
+
+
+
+
+
+
+   d:\projects\install\sergii.kalyta\appdata\local\continuum\anaconda3\envs\tensorflow\lib\site-packages\dlib-19.12.0.dist-info\installer
+   d:\projects\install\sergii.kalyta\appdata\local\continuum\anaconda3\envs\tensorflow\lib\site-packages\dlib-19.12.0.dist-info\metadata
+   d:\projects\install\sergii.kalyta\appdata\local\continuum\anaconda3\envs\tensorflow\lib\site-packages\dlib-19.12.0.dist-info\record
+   d:\projects\install\sergii.kalyta\appdata\local\continuum\anaconda3\envs\tensorflow\lib\site-packages\dlib-19.12.0.dist-info\top_level.txt
+   d:\projects\install\sergii.kalyta\appdata\local\continuum\anaconda3\envs\tensorflow\lib\site-packages\dlib-19.12.0.dist-info\wheel
+   d:\projects\install\sergii.kalyta\appdata\local\continuum\anaconda3\envs\tensorflow\lib\site-packages\dlib.cp35-win_amd64.pyd
+
+
+
+center of cluster to compare with embeddings
+
+
+
+
+
+python pyannote-structure.py shot --verbose ../../pyannote-data/VideoWithTramp_30s.mp4 ../../pyannote-data/VideoWithTramp_30s.shots.json
+
+
+python pyannote-face.py track --verbose --every=0.5 ../../pyannote-data/VideoWithTramp_30s.mp4 ../../pyannote-data/VideoWithTramp_30s.shots.json ../../pyannote-data/VideoWithTramp_30s.track.txt
+
+python pyannote-face.py demo ../../pyannote-data/VideoWithTramp_30s.mp4 ../../pyannote-data/VideoWithTramp_30s.track.txt ../../pyannote-data/VideoWithTramp_30s.track.mp4
+
+python pyannote-face.py extract --verbose ../../pyannote-data/VideoWithTramp_30s.mp4 ../../pyannote-data/VideoWithTramp_30s.track.txt ../../dlib-models/shape_predictor_68_face_landmarks.dat ../../dlib-models/dlib_face_recognition_resnet_model_v1.dat ../../pyannote-data/VideoWithTramp_30s.landmarks.txt ../../pyannote-data/VideoWithTramp_30s.embedding.txt
+
+python pyannote-face.py demo ../../pyannote-data/VideoWithTramp_30s.mkv ../../pyannote-data/VideoWithTramp_30s.track.txt --label=../../pyannote-data/VideoWithTramp_30s.labels.txt ../../pyannote-data/VideoWithTramp_30s.final.mp4
+
+
+
+python pyannote-structure.py shot --verbose ../../pyannote-data/tramp640.mp4 ../../pyannote-data/VideoWithTramp_30s.shots.json
+
+
+python pyannote-face.py track --verbose --every=0.5 ../../pyannote-data/tramp640.mp4 ../../pyannote-data/VideoWithTramp_30s.shots.json ../../pyannote-data/VideoWithTramp_30s.track.txt
+
+python pyannote-face.py demo ../../pyannote-data/tramp640.mp4 ../../pyannote-data/VideoWithTramp_30s.track.txt ../../pyannote-data/VideoWithTramp_30s.track.mp4
+
+python pyannote-face.py extract --verbose ../../pyannote-data/VideoWithTramp_30s.mp4 ../../pyannote-data/VideoWithTramp_30s.track.txt ../../dlib-models/shape_predictor_68_face_landmarks.dat ../../dlib-models/dlib_face_recognition_resnet_model_v1.dat ../../pyannote-data/VideoWithTramp_30s.landmarks.txt ../../pyannote-data/VideoWithTramp_30s.embedding.txt
+
+python pyannote-face.py demo ../../pyannote-data/VideoWithTramp_30s.mkv ../../pyannote-data/VideoWithTramp_30s.track.txt --label=../../pyannote-data/VideoWithTramp_30s.labels.txt ../../pyannote-data/VideoWithTramp_30s.final.mp4
+
+
+
+
+
+
+
+?????????? ??????? pyannote-video ??????????? ?? ???? dlib, openface, opencv ? ?????????????? ???????? ??? ???????? ??? ? ?????????? embeding'??.
+??? ????? ????????? ??? ????? ?????. ?????? ?? ???????? ??????.
+?? ????? ?????? ???????? ????? ???????? ? ????, ?? ?????????? ????????, ?? ?????? ?????????  ????????? ?????. ??????? ??? ????.
+
+ffmpeg -i VideoWithTramp.mp4 -vcodec copy -acodec copy -ss 00:00:50 -t 00:00:30 VideoWithTramp_out.mp4
+
+
+ffmpeg -v quiet -y -i VideoWithTramp.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:30:00 -sn test1.mkv
+
+
+(tensorflow) D:\Projects\AvidPoC\SpeakerRecognition\pyannote-video\scripts>p
+
+
+
+
+python pyannote-structure.py shot --verbose ../../pyannote-data/TheBigBangTheory_10.mp4 ../../pyannote-data/TheBigBangTheory.shots.json
+
+
+python pyannote-face.py track --verbose --every=0.5 ../../pyannote-data/TheBigBangTheory_10.mp4 ../../pyannote-data/TheBigBangTheory.shots.json ../../pyannote-data/TheBigBangTheory.track.txt
+
+python pyannote-face.py demo ../../pyannote-data/TheBigBangTheory_10.mp4 ../../pyannote-data/TheBigBangTheory.track.txt ../../pyannote-data/TheBigBangTheory.track.mp4
+
+python pyannote-face.py extract --verbose ../../pyannote-data/TheBigBangTheory.mkv ../../pyannote-data/TheBigBangTheory.track.txt ../../dlib-models/shape_predictor_68_face_landmarks.dat ../../dlib-models/dlib_face_recognition_resnet_model_v1.dat ../../pyannote-data/TheBigBangTheory.landmarks.txt ../../pyannote-data/TheBigBangTheory.embedding.txt
+
+python pyannote-face.py demo ../../pyannote-data/TheBigBangTheory.mkv ../../pyannote-data/TheBigBangTheory.track.txt --label=../../pyannote-data/TheBigBangTheory.labels.txt ../../pyannote-data/TheBigBangTheory.final.mp4
+
+
+
+
+   ../../pyannote-data/TheBigBangTheory.annotation.json 
+
+
+
+
+
+scenedetect --input ../pyannote-data/Video2.mp4 --statsfile myvideo.stats.csv detect-content split-video
+
+
+
+
+{11: {'Leonard': 24}, 4: {'Unknown': 1}, 5: {'Sheldon': 25}, 13: {'Receptionist': 7}}
+
+
+{11: {'Leonard': 24}, 4: {'Unknown': 1}, 5: {'Sheldon': 25}, 13: {'Receptionist': 7}}
+
+
+
+
+https://github.com/hschao/face-recognition/blob/master/detection/FaceDetector.py
+
+https://github.com/yeephycho/tensorflow-face-detection
+
+https://towardsdatascience.com/how-to-train-a-tensorflow-face-object-detection-model-3599dcd0c26f
+
+https://github.com/davidsandberg/facenet/wiki/Validate-on-lfw#4-align-the-lfw-dataset
+	
+http://www.anvil-software.org/#
+
+http://herve.niderb.fr/research/talks
