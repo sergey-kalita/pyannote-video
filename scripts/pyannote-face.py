@@ -389,13 +389,18 @@ def extract(video, landmark_model, embedding_model, tracking, landmark_output, e
                      #   x, y = p.x, p.y
                      #   cv2.rectangle(copy, (x, y), (x, y), (0, 255, 0), 2)
                     if len(faces_folder) > 0:
-                        print (bounding_box)
-                        face_in_rgb = rgb[bounding_box.top() - int(bounding_box.height()*0.3):bounding_box.bottom() + int(bounding_box.height()*0.3),
-                                          bounding_box.left() - int(bounding_box.width()*0.3):bounding_box.right() + int(bounding_box.width()*0.3)]
-                        #copy = cv2.resize(copy, (self.size, self.size))
+                        #print (bounding_box)
+                        #print("rgb.shape:",rgb.shape)
+                        (height,width, _) = rgb.shape
+#                        face_in_rgb = rgb[max(bounding_box.top() - int(bounding_box.height()*0.8),0):min(bounding_box.bottom() + int(bounding_box.height()*0.8),rgb.shape[0]-1),
+#                                          max(bounding_box.left() - int(bounding_box.width()*0.8),0):min(bounding_box.right() + int(bounding_box.width()*0.8),rgb.shape[1]-1)]
+                        face_in_rgb = rgb[max(bounding_box.top(),0):min(bounding_box.bottom() ,height - 1),
+                                          max(bounding_box.left() ,0):min(bounding_box.right(),width -1)]
+                        
+#                        #copy = cv2.resize(copy, (self.size, self.size))
                         #return copy
         
-                        io.imsave(faces_folder + 'img{t:.3f}_{identifier:d}.jpg'.format(t=T, identifier=identifier), face_in_rgb)
+                        io.imsave(faces_folder + '{identifier:2d}_{t:.3f}_img.jpg'.format(t=T, identifier=identifier), face_in_rgb)
     
                     flandmark.write('{t:.3f} {identifier:d}'.format(
                         t=T, identifier=identifier))
@@ -511,9 +516,15 @@ def demo(filename, tracking, output, t_start=0., t_end=None, shift=0.,
         with open(labels, 'r') as f:
             labels = {}
             for line in f:
-                identifier, label = line.strip().split()
+#                identifier, label = line.strip().split()
+#                identifier = int(identifier)
+#                labels[identifier] = label
+                pos = line.strip().index(' ')
+                identifier = line.strip()[0:pos]
+                label  = line.strip()[pos+1:]
                 identifier = int(identifier)
                 labels[identifier] = label
+                
 
     video = Video(filename, ffmpeg=ffmpeg)
 
@@ -549,11 +560,14 @@ def train(train_dir, model_save_path, landmark_model, embedding_model, verbose=F
         for img_path in image_files_in_folder(os.path.join(train_dir, class_dir)):
             
             image = face_recognition.load_image_file(img_path)
-            faces = []
-            for f in face.iterfaces(image):
-                faces.append(f)
-                
-            face_bounding_boxes = faces
+#            faces = []
+#            for f in face.iterfaces(image):
+#                faces.append(f)
+#            
+#            #io.imsave('1_img.jpg', image)
+#        
+#            face_bounding_boxes = faces
+            face_bounding_boxes = [dlib.rectangle(0,0,image.shape[1]-1, image.shape[0]-1)]
 
             if len(face_bounding_boxes) != 1:
                 # If there are no people (or too many people) in a training image, skip the image.
@@ -639,7 +653,7 @@ def recognize(embeddings, train_model, labels, verbose=False, report = None):
          train_model = None   
     if verbose:
         print("Clustering...")
-    clustering = FaceClustering(threshold=0.6)
+    clustering = FaceClustering(threshold=0.55)
     face_tracks, embeddings = clustering.model.preprocess(embeddings)
     embeddings = embeddings[ft.reduce(lambda x, y: x & y,[embeddings['d{0}'.format(i)] != 0.0 for i in range(128)])]
     result = clustering(face_tracks, features=embeddings)
@@ -829,7 +843,13 @@ def annotate(output, tracking, shots,t_start=0., t_end=None, shift=0., labels=No
         with open(labels, 'r') as f:
             labels = {}
             for line in f:
-                identifier, label = line.strip().split()
+                #print(line.strip().split())
+                pos = line.strip().index(' ')
+                #l = line.strip().split()
+                identifier = line.strip()[ 0:pos ]
+                label  = line.strip()[ pos+1: ]
+                #print(identifier, label  )
+                #print( identifier  )
                 identifier = int(identifier)
                 labels[identifier] = label
 #        for id,label in labels.items():

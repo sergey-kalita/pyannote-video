@@ -12,9 +12,9 @@ python pyannote-face.py demo ../../pyannote-data/TheBigBangTheory.mkv ../../pyan
 python pyannote-face.py annotate  ../../pyannote-data/TheBigBangTheory.shots.json ../../pyannote-data/TheBigBangTheory.track.txt --label=../../pyannote-data/TheBigBangTheory.labels.txt ../../pyannote-data/TheBigBangTheory.annotation.json  
 
 
-python pyannote-face.py train --verbose ./train  ../../dlib-models/shape_predictor_68_face_landmarks.dat ../../dlib-models/dlib_face_recognition_resnet_model_v1.dat ./trained_knn_model_demo.clf
+python pyannote-face.py train --verbose ./Video2Faces/train  ../../dlib-models/shape_predictor_68_face_landmarks.dat ../../dlib-models/dlib_face_recognition_resnet_model_v1.dat ./trained_knn_model_demo.clf
 python pyannote-face.py recognize  --verbose ../../pyannote-data/Video2.embedding.txt  ./trained_knn_model_demo.clf ../../pyannote-data/Video2.labels.txt  --report ./Video2.validation.json
-python pyannote-face.py evaluate  --label=../../pyannote-data/Video2.labels.txt . ./Video2.reference.json ./Video2.validation.json --report benchmark_report.txt
+python pyannote-face.py evaluate  ./Video2.reference.json ./Video2.validation.json --report benchmark_report.txt
 
 
 ffmpeg -v quiet -y -i Video2.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:30:00 -sn Video2_1.mp4
@@ -34,21 +34,29 @@ None
 None
 Coverage = 0.904
 
+ Cannot assign a device for operation 'FeatureExtractor/Assert/Assert': Could not satisfy explicit device specification '/device:GPU:0' because no supported kernel for GPU devices is available.
+#################Video 2 processing######################
+
+python pyannote-structure.py shot --verbose --height=200  ../../pyannote-data/Video2.mp4 ../../pyannote-data/Video2.shots.json
 
 
-python pyannote-structure.py shot --verbose --height=100  ../../pyannote-data/Video2.mp4 ../../pyannote-data/Video2.shots.json
+python pyannote-face.py track --verbose --min-confidence=7.0 --max-gap=2.0 --every=0.5 ../../pyannote-data/Video2.mp4 ../../pyannote-data/Video2.shots.json ../../pyannote-data/Video2.track.txt
 
-
-python pyannote-face.py track --verbose --min-confidence=5.0 --max-gap=2.0 --every=0.5 ../../pyannote-data/Video2.mp4 ../../pyannote-data/Video2.shots.json ../../pyannote-data/Video2.track.txt
-
-#python pyannote-face.py demo ../../pyannote-data/Video2.mp4 ../../pyannote-data/TheBigBangTheory.track.txt ../../pyannote-data/TheBigBangTheory.track.mp4
+#python pyannote-face.py demo ../../pyannote-data/Video2.mp4 ../../pyannote-data/Video2.track.txt ../../pyannote-data/Video2.track.mp4
 
 python pyannote-face.py extract --verbose ../../pyannote-data/Video2.mp4 ../../pyannote-data/Video2.track.txt ../../dlib-models/shape_predictor_68_face_landmarks.dat ../../dlib-models/dlib_face_recognition_resnet_model_v1.dat ../../pyannote-data/Video2.landmarks.txt ../../pyannote-data/Video2.embedding.txt
 
-#python pyannote-face.py demo ../../pyannote-data/TheBigBangTheory.mkv ../../pyannote-data/TheBigBangTheory.track.txt --label=../../pyannote-data/TheBigBangTheory.labels.txt ../../pyannote-#data/TheBigBangTheory.final.mp4   
+python pyannote-face.py demo ../../pyannote-data/Video2.mp4 ../../pyannote-data/Video2.track.txt --label=../../pyannote-data/Video2.labels.txt ../../pyannote-data/Video2.final.mp4   
 
-python pyannote-face.py annotate  ../../pyannote-data/Video2.shots.json ../../pyannote-data/Video2.track.txt ../../pyannote-data/Video2.annotation.json  
+python pyannote-face.py annotate  --label=../../pyannote-data/Video2.labels.txt  ../../pyannote-data/Video2.shots.json ../../pyannote-data/Video2.track.txt ../../pyannote-data/Video2.annotation.json  
 
+python pyannote-face.py train --verbose ./Video2Faces/train  ../../dlib-models/shape_predictor_68_face_landmarks.dat ../../dlib-models/dlib_face_recognition_resnet_model_v1.dat ./trained_knn_model_demo.clf
+
+python pyannote-face.py recognize  --verbose ../../pyannote-data/Video2.embedding.txt  ./trained_knn_model_demo.clf ../../pyannote-data/Video2.labels.txt  --report ./Video2.validation.json
+
+python pyannote-face.py evaluate  ./Video2.reference.json ./Video2.validation.json --report benchmark_report.txt
+
+#########################################################
 
 
 python pyannote-structure.py shot --verbose --height=100  ../../pyannote-data/Video2/Video2-Scene-019.mp4 ../../pyannote-data/Video2-Scene-019.shots.json
