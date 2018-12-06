@@ -967,13 +967,13 @@ def annotate(output, tracking, shots,t_start=0., t_end=None, shift=0., labels=No
 #			"Trade": "62"
 #		}]
 #	},
-
+#"FrameFaces": ','.join(sorted(set(face_labels))),
     json_data = []
     for shot_seg, face_labels in shots_with_face_ids:
         print (shot_seg, face_labels)
         json_data.append({"time":"%02d:%02d" % divmod(math.ceil(shot_seg.start), 60), 
                           "Speaker":"unknown",
-                          "FrameFaces": ','.join(sorted(set(face_labels))),
+                          "FrameFaces": ','.join(sorted(list(face_labels))),
                           "Topics": [{
                         			"Unknown": "100"
                           }]
